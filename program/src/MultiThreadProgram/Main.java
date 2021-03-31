@@ -6,6 +6,7 @@ import MultiThreadProgram.マルチスレッドテスト.オークション.Doma
 import MultiThreadProgram.マルチスレッドテスト.オークション.Domain.models.ユーザー.ユーザー;
 import MultiThreadProgram.マルチスレッドテスト.オークション.Domain.models.ユーザー.ユーザーFactory;
 import MultiThreadProgram.マルチスレッドテスト.オークション.Domain.models.商品.オークション商品;
+import MultiThreadProgram.マルチスレッドテスト.オークション.Domain.service.オークション.オークションService;
 import MultiThreadProgram.マルチスレッドテスト.オークション.Infrastructures.InMemory.ユーザー.ユーザーRepository;
 
 public class Main{
@@ -25,7 +26,7 @@ public class Main{
     	ユーザーアプリ.ユーザー情報の保存(三郎);
 
     	// 今回の勉強用のメインアプリ生成
-    	オークションアプリケーション アプリ = new オークションアプリケーション();
+    	オークションアプリケーション アプリ = new オークションアプリケーション(new オークションService());
     	オークション 漫画オークション = アプリ.オークション開催(太郎, new オークション商品(太郎, "漫画"), 190000);
     	漫画オークション.入札開始();
 
