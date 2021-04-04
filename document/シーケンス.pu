@@ -1,0 +1,41 @@
+@startuml{シーケンス図.png}
+participant Main as main
+participant "ユーザー" as user
+participant "ユーザー\nアプリケーション" as user_app
+participant "ユーザー\nリポジトリー" as user_repo
+participant "オークション\nアプリケーション" as auction_app
+participant "オークション" as auction
+
+main -> user:ユーザーの生成
+main -> user_app:ユーザーアプリケーション呼び出し
+main -> user_app:ユーザーの登録
+main <-- user_app
+user_app -> user_repo:ユーザー情報を保存
+
+main -> auction_app:オークションオブジェクトの生成
+create auction
+auction_app -> auction:生成
+main -> auction_app:オークションの設定
+auction_app -> auction:設定
+auction_app <-- auction
+main -> auction_app:オークションの開催
+auction_app -> auction:状態を変更
+auction_app <-- auction
+
+main -> auction_app:入札
+activate auction_app
+
+critical 入札処理
+note left:入札処理を１つの\nトランザクションとしてまとめる
+    auction_app -> auction:開催状態確認
+    auction_app -> auction:落札済み確認
+    auction_app -> auction:持ち金確認
+    auction_app -> auction:無効入札確認
+    auction_app -> auction:入札を記録
+    auction_app -> user:持ち金から払う
+end
+
+deactivate auction_app
+destroy auction
+
+@enduml
